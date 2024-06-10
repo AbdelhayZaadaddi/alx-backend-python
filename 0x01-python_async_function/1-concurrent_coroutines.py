@@ -1,15 +1,23 @@
 #!/usr/bin/env python3
-"""Asynchronous coroutine that waits for a random delay between
-0 and max_delay and eventually returns it.
-"""
+"""A list of all the delays (float values)"""
 
 
-import random
 import asyncio
+from typing import List
+wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_random(max_delay: int = 10) -> float:
-    """Wait for some time"""
-    wait_time = random.random() * max_delay
-    await asyncio.sleep(wait_time)
-    return wait_time
+async def wait_n(n: int, max_delay: int) -> List[float]:
+    """Spawn wait_random n times"""
+    tasks = []
+    delays = []
+
+    for i in range(n):
+        task = wait_random(max_delay)
+        tasks.append(task)
+
+    for task in asyncio.as_completed((tasks)):
+        delay = await task
+        delays.append(delay)
+
+    return delays
