@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
-""" a python module to loop 10 times """
-import random
+"""
+A coroutine called `async_generator` that generates
+random numbers asynchronously.
+"""
+
 import asyncio
+import random
 from typing import Generator
 
 
 async def async_generator() -> Generator[float, None, None]:
-    """
-    async_generator - function to loop 10 times
-    Arguments:
-        no arguments
-    Returns:
-        nothing
-    """
-    for i in range(10):
+    '''Generates a sequence of 10 numbers.
+    '''
+    for _ in range(10):
         await asyncio.sleep(1)
-        yield random.uniform(0, 10)
+        yield random.random() * 10
